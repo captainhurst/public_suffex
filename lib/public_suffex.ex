@@ -1,10 +1,23 @@
 defmodule PublicSuffex do
   @path  "./data/public_suffix_list.dat.txt"
 
-  defmacro suffix(lines) do
-    
+  defmacro suffix(line) do
+    matcher = String.to_atom("match_#{line}")
+    quote do
+      def unquote(matcher)(data) do
+        Enum.filter(data, fn
+          (unquote(line)) -> true
+          (_) -> false
+        end)
+        # unquote(atom)
+      end
+    end
   end
-  
+
+  def split_domain(domain) do
+    String.split(domain, ".")
+  end
+
   def open_file! do
     File.read!(@path)
   end
