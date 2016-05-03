@@ -1,43 +1,22 @@
 defmodule PublicSuffex do
-  @path  "./data/public_suffix_list.dat.txt"
+  use PublicSuffex.Suffixer
 
-  defmacro suffix(line) do
-    matcher = String.to_atom("match_#{line}")
-    quote do
-      def unquote(matcher)(data) do
-        Enum.filter(data, fn
-          (unquote(line)) -> true
-          (_) -> false
-        end)
-        # unquote(atom)
-      end
-    end
+  def parse(url) do
+    url
+    |> String.reverse
+    |> do_parse
   end
 
-  def split_domain(domain) do
-    String.split(domain, ".")
+  defp do_parse(reversed) do
+    result = @tlds
+      |> Enum.filter(fn tld -> String.starts_with?(reversed, tld) end)
+      |> List.first
+
+    case result do
+      x when x |> is_binary -> String.reverse(x)
+      _ -> nil
+    end 
   end
-
-  def open_file! do
-    File.read!(@path)
-  end
-
-  def break_into_lines(file) do
-
-    String.split(file, "\n")
-  end
-
-  def strip_lines(lines) do
-    Enum.map(lines, fn (line) -> line |> String.strip end)
-  end
-
-  def strip_comments(lines) do
-    Enum.filter(lines, fn
-      ("//" <> _) -> false
-      ("//")      -> false
-      ("")        -> false
-      (_)         -> true
-    end)
-  end
-
 end
+
+# open_file! |> break_into_lines |> strip_lines |> strip_comments |> sort_lines
