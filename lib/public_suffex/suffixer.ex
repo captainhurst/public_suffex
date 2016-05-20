@@ -4,7 +4,13 @@ defmodule PublicSuffex.Suffixer do
   
   defmacro __using__(_) do
     quote do
-      Module.put_attribute __MODULE__, :tlds, unquote(PublicSuffex.Suffixer.create_suffix)
+      
+      Module.put_attribute __MODULE__, :tlds, PublicSuffex.Suffixer.create_suffix
+
+      def tlds do
+        @tlds
+      end
+
     end
   end
 
@@ -27,10 +33,6 @@ defmodule PublicSuffex.Suffixer do
     Enum.map(lines, fn (line) -> line |> String.strip end)
   end
 
-  def sort_lines(lines) do
-    Enum.sort(lines, fn(line, line2) -> String.length(line) > String.length(line2) end)
-  end
-
   def strip_comments(lines) do
     Enum.filter(lines, fn
       ("//" <> _) -> false
@@ -40,18 +42,19 @@ defmodule PublicSuffex.Suffixer do
     end)
   end
 
-  def reverse(lines) do
-    Enum.map(lines, fn line -> String.reverse(line) end)
+  def as_mapset(tlds) do
+    tlds
+    |> Enum.into(MapSet.new)
   end
 
   def create_suffix do
     open_file! 
     |> break_into_lines 
     |> strip_lines 
-    |> strip_comments 
-    |> sort_lines
-    |> reverse
+    |> strip_comments
+    |> as_mapset
   end
+
 
 
 end
