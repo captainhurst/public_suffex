@@ -2,12 +2,16 @@ defmodule PublicSuffex.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :public_suffex,
-     version: "0.0.1",
-     elixir: "~> 1.2",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps]
+    [
+      app: :public_suffex,
+      version: "0.0.1",
+      elixir: "~> 1.2",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      description: description,
+      package: package,
+      deps: deps,
+   ]
   end
 
   # Configuration for the OTP application
@@ -17,6 +21,24 @@ defmodule PublicSuffex.Mixfile do
     [applications: [:logger]]
   end
 
+  defp description do
+    """
+    A module for determining the TLD given a valid URL.
+
+    A special thank you to @elbow-jason for all his mentorship and code expertise. 
+
+    """
+  end
+
+  defp package do
+    [
+      name: :domain_parts,
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      maintainers: ["Jason Goldberger(elbow-jason)", "Ryan Hurst"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/captainhurst/public_suffex"}
+    ]
+ end
   # Dependencies can be Hex packages:
   #
   #   {:mydep, "~> 0.3.0"}
