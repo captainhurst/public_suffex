@@ -11,7 +11,7 @@ defmodule PublicSuffexTest do
   end 
 
   test "parse should be fast" do
-    {time, value} = :timer.tc(fn -> PublicSuffex.parse("thing.com.so") end)
+    {time, _} = :timer.tc(fn -> PublicSuffex.parse("thing.com.so") end)
     assert time <= 10000 # microseconds
   end
 
@@ -22,7 +22,7 @@ defmodule PublicSuffexTest do
         |> elem(0)
       end)
       |> Enum.sum
-    assert result <= 1_000_000 # microseconds
+    assert result <= 1_000_000 # milliseconds
   end
 
 
