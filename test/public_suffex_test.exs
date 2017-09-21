@@ -22,7 +22,7 @@ defmodule PublicSuffexTest do
         |> elem(0)
       end)
       |> Enum.sum
-    assert result <= 1_000_000 # milliseconds
+    assert result <= 1_000_000 # microseconds
   end
 
 
