@@ -30,7 +30,7 @@ defmodule PublicSuffex.Suffixer do
   end
 
   def strip_lines(lines) do
-    Enum.map(lines, fn (line) -> line |> String.strip end)
+    Enum.map(lines, fn (line) -> line |> String.trim end)
   end
 
   def strip_comments(lines) do
@@ -48,7 +48,7 @@ defmodule PublicSuffex.Suffixer do
   end
 
   def create_suffix do
-    open_file! 
+    open_file!()
     |> break_into_lines 
     |> strip_lines 
     |> strip_comments

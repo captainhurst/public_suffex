@@ -11,7 +11,7 @@ defmodule PublicSuffexTest do
   end 
 
   test "parse should be fast" do
-    {time, value} = :timer.tc(fn -> PublicSuffex.parse("thing.com.so") end)
+    {time, _} = :timer.tc(fn -> PublicSuffex.parse("thing.com.so") end)
     assert time <= 10000 # microseconds
   end
 
